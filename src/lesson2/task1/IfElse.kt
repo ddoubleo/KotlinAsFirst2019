@@ -158,11 +158,11 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var bigside: Double
-    var smallside1: Double
-    var samllside2: Double
+    val maxside: Double
+    val minside1: Double
+    val minside2: Double
 
-    if (a < (b + c) && (b < (a + c)) && (c < a + b))
+    if (a < (b + c) && (b < (a + c)) && (c < a + b)) {
         if (a > b)
             if (a > c) {
                 maxside = a
@@ -183,8 +183,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
             minside2 = b
         }
     return when {
-        ((minside1 * minside1 + minside2 * minside2 - maxside * maxside) = 0) -> 1
-        (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2)
+        (minside1 * minside1 + minside2 * minside2 - maxside * maxside == 0.0) -> 1
+        (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) > 0 -> 0
+        (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) < 0 -> 2
+        else -> -1
+     }
     }
     else return -1
 
@@ -199,7 +202,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b - c > 0) return (b - c)
-    else return -1
+    val cross = min(b,d)-max(a,c)
+    if (cross>=0) {
+        return cross
+    }
+        else return -1
 
 }
