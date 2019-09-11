@@ -3,7 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import java.lang.Math.abs
+import java.lang.Math.*
 
 /**
  * Пример
@@ -84,4 +84,11 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val minbrick = min(a, min(b, c))
+    val maxbrick = max(a, max(b, c))
+    val midbrick = a+b+c-minbrick-maxbrick
+    return midbrick <= max(r, s) && minbrick <= min(r, s)
+
+
+}
