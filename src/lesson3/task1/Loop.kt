@@ -75,7 +75,7 @@ fun digitNumber(n: Int): Int {
     var Count = 0
     return if (ChangableN == 0) 1
     else {
-        while (ChangableN > 0) {
+        while (ChangableN != 0) {
             Count += 1
             ChangableN /= 10
         }
@@ -285,8 +285,8 @@ fun hasDifferentDigits(n: Int): Boolean {
         count++
     }
     n1 = n
-    for (i in 0..count - 1) {
-        arr[n1 % 10 - 1]++
+    for (i in 1..count) {
+        arr[n1 % 10]++
         n1 /= 10
     }
     for (i in 0..9)

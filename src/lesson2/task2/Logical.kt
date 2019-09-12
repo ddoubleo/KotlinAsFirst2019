@@ -72,7 +72,7 @@ fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
 ): Boolean {
-    return r2 * r2 - r1 * r1 >= (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)
+    return r2-r1 >= sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 }
 
 /**
