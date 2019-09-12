@@ -3,8 +3,6 @@
 package lesson3.task1
 
 import java.lang.Math.pow
-import kotlin.math.max
-import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -71,15 +69,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var ChangableN = n
-    var Count = 0
-    return if (ChangableN == 0) 1
+    var n = n
+    var count = 0
+    return if (n == 0) 1
     else {
-        while (ChangableN != 0) {
-            Count += 1
-            ChangableN /= 10
+        while (n != 0) {
+            count += 1
+            n /= 10
         }
-        Count
+        count
     }
 }
 
@@ -111,12 +109,14 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var count = max(m, n)
-    for (i in count..(m * n) / 2) {
-        if (i % m == 0 && i % n == 0) return i
-
+    var m1 = m
+    var n1 = n
+    while (n1 != 0) {
+        var t = n1;
+        n1 = m1 % n1;
+        m1 = t;
     }
-    return m * n
+    return (m * n) / m1
 }
 
 /**
@@ -156,12 +156,14 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var a = m
-    var b = n
-    while (a > 0 && b > 0)
-        if (a > b) a /= b
-        else b /= a
-    return a + b == 1
+    var m1 = m
+    var n1 = n
+    while (n1 != 0) {
+        var t = n1;
+        n1 = m1 % n1;
+        m1 = t;
+    }
+    return m1 == 1
 
 
 }
