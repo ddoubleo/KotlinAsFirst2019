@@ -115,8 +115,8 @@ fun whichRookThreatens(
 ): Int {
     return when {
         ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 3
-        ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) -> 1
-        ((kingX != rookX1 && kingY != rookY1) && (kingX == rookX2 || kingY == rookY2)) -> 2
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        (kingX == rookX2 || kingY == rookY2) -> 2
         else -> 0
 
     }
@@ -139,9 +139,9 @@ fun rookOrBishopThreatens(
     bishopX: Int, bishopY: Int
 ): Int {
     return when {
-        ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) != abs(kingY - bishopY))) -> 1
         ((kingX == rookX || kingY == rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY))) -> 3
-        ((kingX != rookX && kingY != rookY) && (abs(kingX - bishopX) == abs(kingY - bishopY))) -> 2
+        (kingX == rookX || kingY == rookY) -> 1
+        (abs(kingX - bishopX) == abs(kingY - bishopY)) -> 2
         else -> 0
 
     }
@@ -181,14 +181,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
             minside1 = a
             minside2 = b
         }
-    return when {
-        (minside1 * minside1 + minside2 * minside2 - maxside * maxside == 0.0) -> 1
-        (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) > 0 -> 0
-        (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) < 0 -> 2
-        else -> -1
-     }
-    }
-    else return -1
+        return when {
+            (minside1 * minside1 + minside2 * minside2 - maxside * maxside == 0.0) -> 1
+            (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) > 0 -> 0
+            (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) < 0 -> 2
+            else -> -1
+        }
+    } else return -1
 
 }
 
@@ -201,10 +200,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val cross = min(b,d)-max(a,c)
-    if (cross>=0) {
-        return cross
-    }
-        else return -1
+    val cross = min(b, d) - max(a, c)
+    return if (cross >= 0) {
+        cross
+    } else -1
 
 }

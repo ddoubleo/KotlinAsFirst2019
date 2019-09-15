@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import java.lang.Math.pow
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 /**
@@ -125,12 +126,12 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..sqrt(n.toDouble()).toInt() + 1) { //Выглядит ужасно но тем не менее так оно рабоает гораздо быстрее
         if (n % i == 0) {
             return i
         }
     }
-    return 0
+    return n
 }
 
 /**
@@ -139,12 +140,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n / 2 downTo 1) {
+    for (i in n / 2 downTo sqrt(n.toDouble()).toInt()) { //Все еще неоптимально
         if (n % i == 0) {
             return i
         }
     }
-    return 0
+    return 1
 
 }
 
@@ -159,7 +160,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     var m1 = m
     var n1 = n
     while (n1 != 0) {
-        var t = n1;
+        val t = n1;
         n1 = m1 % n1;
         m1 = t;
     }
@@ -250,7 +251,7 @@ fun revert(n: Int): Int {
     }
     n1 = n
     for (i in length - 1 downTo 0) {
-        opposite += (n1 % 10 * pow(10.0, i.toDouble())).toInt()
+        opposite += (n1 % 10 * 10.0.pow(i.toDouble())).toInt()
         n1 /= 10
     }
     return opposite
