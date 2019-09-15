@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -308,7 +309,21 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var n = n
+    var count = 0
+    var lastnum = 0
+    var i = 1
+    while (count < n) {
+        lastnum = sqr(i)
+        count += digitNumber(lastnum)
+        i++
+    }
+    n = count - n
+    for (j in 1..n)
+        lastnum /= 10
+    return lastnum % 10
+}
 
 /**
  * Сложная
@@ -319,4 +334,19 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var n = n
+    var count = 0
+    var lastnum = 0
+    var i = 1
+    while (count < n) {
+        lastnum = fib(i)
+        count += digitNumber(lastnum)
+        i++
+    }
+    n = count - n
+    for (j in 1..n)
+        lastnum /= 10
+    return lastnum % 10
+}
+
