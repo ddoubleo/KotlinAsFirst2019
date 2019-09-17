@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.digitNumber
 import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -218,7 +219,7 @@ fun factorize(n: Int): List<Int> {
             count++
         }
         n1 /= count
-        list.add(i, count)
+        list.add(count)
         i++
     }
     return list
@@ -257,7 +258,15 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var n = n
+    var list = mutableListOf<Int>()
+    while (n != 0) {
+        list.add(n % base)
+        n /= base
+    }
+    return list.asReversed()
+}
 
 /**
  * Сложная
@@ -270,7 +279,17 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String { //+87
+    var n = n
+    var result = String()
+    while (n != 0) {
+        var t = n % base
+        result += if (t < 10) (t + 48).toChar()   //Так можно или все равно под условие не подходит?
+        else (t + 87).toChar()
+        n /= base
+    }
+    return result.reversed()
+}
 
 /**
  * Средняя
@@ -284,7 +303,6 @@ fun decimal(digits: List<Int>, base: Int): Int {
     for (i in digits.size - 1 downTo 0)
         result += digits[digits.size - i - 1] * base.toDouble().pow(i.toDouble()).toInt()
     return result
-
 
 
 }
@@ -301,8 +319,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
-
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0
+    for (i in str.length - 1 downTo 0) {
+        var t = str[str.length - i - 1].toInt()
+        if (t in 97..122) result += (t - 87) * base.toDouble().pow(i.toDouble()).toInt()
+        else result += (t - 48) * base.toDouble().pow(i.toDouble()).toInt()
+    }
+    return result
+}
 /**
  * Сложная
  *
