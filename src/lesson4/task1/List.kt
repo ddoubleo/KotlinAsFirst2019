@@ -261,6 +261,7 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     var n = n
     val list = mutableListOf<Int>()
+    if (n == 0) return listOf(0)
     while (n != 0) {
         list.add(n % base)
         n /= base
@@ -282,6 +283,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String { //+87
     var n = n
     var result = String()
+    if (n == 0) return "0"
     while (n != 0) {
         val t = n % base
         result += if (t < 10) (t + 48).toChar()   //Так можно или все равно под условие не подходит?
