@@ -147,7 +147,7 @@ fun mean(list: List<Double>): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var mean = mean(list)
+    val mean = mean(list)
     for (i in 0 until list.size) list[i] -= mean
     return list
 
@@ -212,7 +212,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
 fun factorize(n: Int): List<Int> {
     var n1 = n
     var i = 0
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     while (n1 != 1) {
         var count = 2
         while (n1 % count != 0) {
@@ -260,7 +260,7 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var n = n
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     while (n != 0) {
         list.add(n % base)
         n /= base
@@ -283,7 +283,7 @@ fun convertToString(n: Int, base: Int): String { //+87
     var n = n
     var result = String()
     while (n != 0) {
-        var t = n % base
+        val t = n % base
         result += if (t < 10) (t + 48).toChar()   //Так можно или все равно под условие не подходит?
         else (t + 87).toChar()
         n /= base
@@ -322,9 +322,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var result = 0
     for (i in str.length - 1 downTo 0) {
-        var t = str[str.length - i - 1].toInt()
-        if (t in 97..122) result += (t - 87) * base.toDouble().pow(i.toDouble()).toInt()
-        else result += (t - 48) * base.toDouble().pow(i.toDouble()).toInt()
+        val t = str[str.length - i - 1].toInt()
+        result += if (t in 97..122) (t - 87) * base.toDouble().pow(i.toDouble()).toInt()
+        else (t - 48) * base.toDouble().pow(i.toDouble()).toInt()
     }
     return result
 }

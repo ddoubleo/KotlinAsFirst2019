@@ -2,9 +2,7 @@
 
 package lesson2.task1
 
-import javafx.beans.binding.Bindings.and
 import lesson1.task1.discriminant
-import lesson1.task1.sqr
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -68,16 +66,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age in 5..20) || (age in 105..120)) return "$age лет"
-    else {
-        return when {
-            (age % 10 == 1) -> "$age год"
-            (age % 10 in 2..4) -> "$age года"
-            else -> "$age лет"
-        }
+    return when {
+        (age in 5..20) || (age in 105..120) -> "$age лет"
+        (age % 10 == 1) -> "$age год"
+        (age % 10 in 2..4) -> "$age года"
+        else -> "$age лет"
     }
-
 }
+
 
 /**
  * Простая
@@ -94,7 +90,7 @@ fun timeForHalfWay(
     val s0 = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     return when {
         (t1 * v1 > s0) -> (s0 / v1)
-        (t1 * v1 < s0 && t1 * v1 + t2 * v2 > s0) -> (t1 + (s0 - t1 * v1) / v2)
+        (t1 * v1 + t2 * v2 > s0) -> (t1 + (s0 - t1 * v1) / v2)
         else -> (t1 + t2 + (s0 - t1 * v1 - t2 * v2) / v3)
     }
 }
@@ -157,38 +153,16 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val maxside: Double
-    val minside1: Double
-    val minside2: Double
+    val maxSide = maxOf(a, b, c)
+    val minSide1 = minOf(a, b, c)
+    val minSide2 = a + b + c - maxSide - minSide1
 
-    if (a < (b + c) && (b < (a + c)) && (c < a + b)) {
-        if (a > b)
-            if (a > c) {
-                maxside = a
-                minside1 = b
-                minside2 = c
-            } else {
-                maxside = c
-                minside1 = a
-                minside2 = b
-            }
-        else if (b > c) {
-            maxside = b
-            minside1 = a
-            minside2 = c
-        } else {
-            maxside = c
-            minside1 = a
-            minside2 = b
-        }
-        return when {
-            (minside1 * minside1 + minside2 * minside2 - maxside * maxside == 0.0) -> 1
-            (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) > 0 -> 0
-            (minside1 * minside1 + minside2 * minside2 - maxside * maxside) / (2 * minside1 * minside2) < 0 -> 2
-            else -> -1
-        }
-    } else return -1
-
+    return when {
+        (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide == 0.0) -> 1
+        (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide) / (2 * minSide1 * minSide2) > 0 -> 0
+        (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide) / (2 * minSide1 * minSide2) < 0 -> 2
+        else -> -1
+    }
 }
 
 /**
@@ -201,8 +175,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val cross = min(b, d) - max(a, c)
-    return if (cross >= 0) {
-        cross
-    } else -1
-
+    return if (cross >= 0) cross
+    else -1
 }

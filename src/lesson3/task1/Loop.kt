@@ -3,7 +3,6 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
-import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -92,15 +91,14 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var number1 = 1
     var number2 = 1
-    var fnumber = number1 + number2
+    var fNumber = 2
     if (n == 1 || n == 2) return number1
-    if (n == 3) return fnumber
     for (i in 4..n) {
         number1 = number2
-        number2 = fnumber
-        fnumber = number1 + number2
+        number2 = fNumber
+        fNumber = number1 + number2
     }
-    return fnumber
+    return fNumber
 
 }
 
@@ -114,11 +112,11 @@ fun lcm(m: Int, n: Int): Int {
     var m1 = m
     var n1 = n
     while (n1 != 0) {
-        var t = n1;
-        n1 = m1 % n1;
-        m1 = t;
+        val t = n1
+        n1 = m1 % n1
+        m1 = t
     }
-    return (m * n) / m1
+    return m / m1 * n
 }
 
 /**
@@ -244,14 +242,8 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var opposite = 0
-    var length = 0
     var n1 = n
-    while (n1 > 0) {
-        length++
-        n1 /= 10
-    }
-    n1 = n
-    for (i in length - 1 downTo 0) {
+    for (i in digitNumber(n) - 1 downTo 0) {
         opposite += (n1 % 10 * 10.0.pow(i.toDouble())).toInt()
         n1 /= 10
     }
@@ -279,7 +271,7 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var arr = IntArray(10)
+    val arr = IntArray(10)
     var count = 0
     var n1 = n
     var check = 0
