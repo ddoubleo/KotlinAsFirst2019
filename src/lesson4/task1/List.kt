@@ -411,8 +411,8 @@ fun russian(n: Int): String {
         "девятнадцать "
     )
     var n = n
-    var res1: String = ""
-    var res2: String = ""
+    var res1= ""
+    var res2= ""
     if (n % 100 in 11..19) {
         res1 = listSpecial[n % 10 - 1] + res1
         n /= 100
