@@ -72,14 +72,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var n = n
     var count = 0
-    return if (n == 0) 1
-    else {
-        while (n != 0) {
-            count += 1
-            n /= 10
-        }
-        count
+    while (true) {
+        count += 1
+        n /= 10
+        if (n == 0) break
     }
+    return count
 }
 
 /**
