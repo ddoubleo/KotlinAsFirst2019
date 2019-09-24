@@ -157,15 +157,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val minSide1 = minOf(a, b, c)
     val minSide2 = a + b + c - maxSide - minSide1
 
-    return if (maxSide > minSide1 + minSide2) -1
-    else {
-        when {
-            (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide == 0.0) -> 1
-            (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide) / (2 * minSide1 * minSide2) > 0 -> 0
-            else -> 2
-        }
+    return when {
+        (maxSide > minSide1 + minSide2) -> -1
+        (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide == 0.0) -> 1
+        (minSide1 * minSide1 + minSide2 * minSide2 - maxSide * maxSide) / (2 * minSide1 * minSide2) > 0 -> 0
+        else -> 2
     }
 }
+
 
 /**
  * Средняя
