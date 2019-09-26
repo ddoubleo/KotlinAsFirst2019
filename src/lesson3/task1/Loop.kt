@@ -3,6 +3,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -136,15 +137,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    for (i in n / 2 downTo sqrt(n.toDouble()).toInt()) { //Все еще неоптимально
-        if (n % i == 0) {
-            return i
-        }
-    }
-    return 1
-
-}
+fun maxDivisor(n: Int): Int = (n / minDivisor(n))
 
 /**
  * Простая
@@ -174,7 +167,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    return if (sqrt(m.toDouble()) % 1 == 0.0 || sqrt(n.toDouble()) % 1 == 0.0) true
+    return if (sqr(floor(sqrt(m.toDouble()))).toInt() == m || sqr(floor(sqrt(m.toDouble()))).toInt() == m) true //выгядит отвратительно зато не сравниваю double
     else sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt() > 0
 
 }
@@ -242,7 +235,7 @@ fun revert(n: Int): Int {
     var opposite = 0
     var n1 = n
     for (i in digitNumber(n) - 1 downTo 0) {
-        opposite += (n1 % 10 * 10.0.pow(i.toDouble())).toInt()
+        opposite = opposite * 10 + n1 % 10
         n1 /= 10
     }
     return opposite
@@ -269,25 +262,14 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    val arr = IntArray(10)
-    var count = 0
-    var n1 = n
-    var check = 0
-    if (n == 0) return false
-    while (n1 != 0) {
-        n1 /= 10
-        count++
+    var n = n
+    if (n < 10) return false
+    while (n >= 10) {
+        val t = n % 10
+        n /= 10
+        if (n % 10 != t) return true
     }
-    n1 = n
-    for (i in 1..count) {
-        arr[n1 % 10]++
-        n1 /= 10
-    }
-    for (i in 0..9)
-        if (arr[i] > 0)
-            check++
-    return check != 1
-
+    return false
 }
 
 /**
