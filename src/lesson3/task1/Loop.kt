@@ -73,11 +73,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var n = n
     var count = 0
-    while (true) {
+    do {
         count += 1
         n /= 10
-        if (n == 0) break
-    }
+    } while (n != 0)
     return count
 }
 
@@ -252,6 +251,7 @@ fun revert(n: Int): Int {
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun isPalindrome(n: Int): Boolean = n == revert(n)
+
 /**
  * Средняя
  *
