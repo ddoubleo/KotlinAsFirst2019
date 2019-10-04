@@ -5,6 +5,8 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.digitNumber
+import lesson3.task1.isPrime
+import java.io.File.separator
 import java.lang.Math.pow
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -234,21 +236,8 @@ fun factorize(n: Int): List<Int> {
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
 fun factorizeToString(n: Int): String {
-    var n1 = n
-    var i = 0
-    var list = String()
-    while (n1 != 1) {
-        var count = 2
-        while (n1 % count != 0) {
-            count++
-        }
-        n1 /= count
-        list = "$list$count*"
-        i++
-    }
-    return list.subSequence(0, list.lastIndex).toString()     //Слишком долго
-
-
+    if (isPrime(n)) return n.toString()
+    return factorize(n).joinToString(separator = "*")
 }
 
 /**
@@ -411,8 +400,8 @@ fun russian(n: Int): String {
         "девятнадцать "
     )
     var n = n
-    var res1= ""
-    var res2= ""
+    var res1 = ""
+    var res2 = ""
     if (n % 100 in 11..19) {
         res1 = listSpecial[n % 10 - 1] + res1
         n /= 100
