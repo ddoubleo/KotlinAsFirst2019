@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import java.lang.StringBuilder
+
 /**
  * Пример
  *
@@ -91,8 +93,30 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> { //Я знаю что это ужасно я все переделаю потом, честное слово
+    val result = emptyMap<Int, List<String>>().toMutableMap()
+    val list1 = emptyList<String>().toMutableList()
+    val list2 = emptyList<String>().toMutableList()
+    val list3 = emptyList<String>().toMutableList()
+    val list4 = emptyList<String>().toMutableList()
+    val list5 = emptyList<String>().toMutableList()
+    for ((key, value) in grades) {
+        when (value) {
+            1 -> list1.add(key)
+            2 -> list2.add(key)
+            3 -> list3.add(key)
+            4 -> list4.add(key)
+            else -> list5.add(key)
+
+        }
+
+    }
+    result[1] = list1
+    result[2] = list2
+    result[3] = list3
+    result[4] = list4
+    result[5] = list5
+    return result.filterNot { it.value.isEmpty() }
 }
 
 /**
@@ -170,8 +194,18 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    var result = mapA.toMutableMap()
-    result.putAll(mapB)
+    var builder = StringBuilder()
+    val result = mapA.toMutableMap()
+    for ((key, value) in mapB) {
+        builder.clear()
+        if (value != mapA[key]) {
+            if (mapA[key] != null) builder.append(mapA[key])
+                .append(", ")
+            builder.append(value)
+            result[key] = builder.toString()
+        }
+
+    }
     return result
 }
 
@@ -185,7 +219,31 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val result = emptyMap<String, Double>().toMutableMap()
+    val list = emptyList<Double>().toMutableList()
+    for (i in stockPrices)
+        if (!result.containsKey(i.first)) result.put(i.first, 0.0)
+    for ((key, value) in result) {
+        var value = value
+        var number = 0.0
+        var count = 0.0
+        for (i in stockPrices) {
+            if (key == i.first) {
+                number += i.second
+                count++
+            }
+        }
+        list.add(number/count)
+    }
+    var count1 = 0
+    for (i in stockPrices)
+        if (result[i.first] == 0.0) {
+            result[i.first] = list[count1]
+            count1++
+        }
+    return result
+}
 
 /**
  * Средняя
