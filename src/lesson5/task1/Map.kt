@@ -92,11 +92,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val result = emptyMap<Int, MutableList<String>>().toMutableMap()
-    for ((key, value) in grades) {
-        result[value]?.add(key)
-    }
-    return result.toSortedMap(reverseOrder()) // Не работает
+    TODO()
 }
 
 /**
@@ -174,9 +170,8 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val result = mutableMapOf<String, String>()
-    result += mapA
-    result += mapB
+    var result = mapA.toMutableMap()
+    result.putAll(mapB)
     return result
 }
 

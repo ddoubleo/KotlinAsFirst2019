@@ -4,10 +4,8 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
-import lesson3.task1.digitNumber
 import lesson3.task1.isPrime
-import java.io.File.separator
-import java.lang.Math.pow
+import java.lang.StringBuilder
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -180,7 +178,11 @@ fun times(a: List<Int>, b: List<Int>): Int {
  */
 fun polynom(p: List<Int>, x: Int): Int {
     var result = 0
-    for (i in p.indices) result += p[i] * pow(x.toDouble(), i.toDouble()).toInt()
+    var x1 = 1
+    for (i in p.indices) {
+        result += p[i] * x1
+        x1 *= x
+    }
     return result
 
 }
@@ -212,11 +214,13 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
+    if (isPrime(n)) return listOf(n)
     var n1 = n
     var i = 0
+    var count = 2
     val list = mutableListOf<Int>()
     while (n1 != 1) {
-        var count = 2
+
         while (n1 % count != 0) {
             count++
         }
@@ -235,10 +239,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String {
-    if (isPrime(n)) return n.toString()
-    return factorize(n).joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -250,11 +251,10 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     var n = n
     val list = mutableListOf<Int>()
-    if (n == 0) return listOf(0)
-    while (n != 0) {
+    do {
         list.add(n % base)
         n /= base
-    }
+    } while (n != 0)
     return list.asReversed()
 }
 
@@ -312,10 +312,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     var result = 0
+    var x = base.toDouble().pow((str.length - 1).toDouble()).toInt()
     for (i in str.length - 1 downTo 0) {
         val t = str[str.length - i - 1].toInt()
-        result += if (t in 97..122) (t - 87) * base.toDouble().pow(i.toDouble()).toInt()
-        else (t - 48) * base.toDouble().pow(i.toDouble()).toInt()
+        result += if (t in 97..122) (t - 87) * x
+        else (t - 48) * x
+        x /= base
+
     }
     return result
 }
@@ -337,102 +340,103 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val list11 = listOf(
+    "",
+    "один",
+    "два",
+    "три",
+    "четыре",
+    "пять",
+    "шесть",
+    "семь",
+    "восемь",
+    "девять"
+)
+val list12 = listOf(
+    "",
+    "одна",
+    "две",
+    "три",
+    "четыре",
+    "пять",
+    "шесть",
+    "семь",
+    "восемь",
+    "девять"
+)
+val list10 = listOf(
+    "",
+    "десять",
+    "двадцать",
+    "тридцать",
+    "сорок",
+    "пятьдесят",
+    "шестьдесят",
+    "семьдесят",
+    "восемьдесят",
+    "девяносто"
+)
+val list100 =
+    listOf(
+        "",
+        "сто",
+        "двести",
+        "триста",
+        "четыреста",
+        "пятьсот",
+        "шестьсот",
+        "семьсот",
+        "восемьсот",
+        "девятьсот"
+    )
+val listSpecial = listOf(
+    "одиннадцать",
+    "двенадцать",
+    "тринадцать",
+    "четырнадцать",
+    "пятнадцать",
+    "шестнадцать",
+    "семнадцать",
+    "восемнадцать",
+    "девятнадцать"
+)
+
 fun russian(n: Int): String {
-    //Он сам так странно отформатировал, не бейте
-    val list11 = listOf(
-        "",
-        "один ",
-        "два ",
-        "три ",
-        "четыре ",
-        "пять ",
-        "шесть ",
-        "семь ",
-        "восемь ",
-        "девять "
-    )
-    val list12 = listOf(
-        "",
-        "одна ",
-        "две ",
-        "три ",
-        "четыре ",
-        "пять ",
-        "шесть ",
-        "семь ",
-        "восемь ",
-        "девять "
-    )
-    val list10 = listOf(
-        "",
-        "десять ",
-        "двадцать ",
-        "тридцать ",
-        "сорок ",
-        "пятьдесят ",
-        "шестьдесят ",
-        "семьдесят ",
-        "восемьдесят ",
-        "девяносто "
-    )
-    val list100 =
-        listOf(
-            "",
-            "сто ",
-            "двести ",
-            "триста ",
-            "четыреста ",
-            "пятьсот ",
-            "шестьсот ",
-            "семьсот ",
-            "восемьсот ",
-            "девятьсот "
-        )
-    val listSpecial = listOf(
-        "одиннадцать ",
-        "двенадцать ",
-        "тринадцать ",
-        "четырнадцать ",
-        "пятнадцать ",
-        "шестнадцать ",
-        "семнадцать ",
-        "восемнадцать ",
-        "девятнадцать "
-    )
+    var builder = StringBuilder()
     var n = n
-    var res1 = ""
-    var res2 = ""
+    var res1 = mutableListOf<String>()
     if (n % 100 in 11..19) {
-        res1 = listSpecial[n % 10 - 1] + res1
+        res1.add(listSpecial[n % 10 - 1])
         n /= 100
     } else {
-        res1 = list11[n % 10] + res1
+        res1.add(list11[n % 10])
         n /= 10
-        res1 = list10[n % 10] + res1
+        res1.add(list10[n % 10])
         n /= 10
     }
-    res1 = list100[n % 10] + res1
+    res1.add(list100[n % 10])
     n /= 10
     if (n != 0) {
-        res2 = when {
-            (n % 100 in 5..20) -> "тысяч "
-            (n % 10 == 1) -> "тысяча "
-            (n % 10 in 2..4) -> "тысячи "
-            else -> "тысяч "
-
-
-        }
+        res1.add(
+            when {
+                (n % 100 in 5..20) -> "тысяч"
+                (n % 10 == 1) -> "тысяча"
+                (n % 10 in 2..4) -> "тысячи"
+                else -> "тысяч"
+            }
+        )
         if (n % 100 in 11..19) {
-            res2 = listSpecial[n % 10 - 1] + res2
+            res1.add(listSpecial[n % 10 - 1])
             n /= 100
         } else {
-            res2 = list12[n % 10] + res2
+            res1.add(list12[n % 10])
             n /= 10
-            res2 = list10[n % 10] + res2
+            res1.add(list10[n % 10])
             n /= 10
         }
-        res2 = list100[n % 10] + res2
-        val result = res2 + res1
-        return result.substring(0, result.length - 1)
-    } else return res1.substring(0, res1.length - 1)
+        res1.add(list100[n % 10])
+    }
+    val result = res1.filterNot { it == "" }
+    return (result.reversed().joinToString(separator = " "))
+
 }

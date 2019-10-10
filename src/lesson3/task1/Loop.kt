@@ -7,6 +7,17 @@ import kotlin.math.floor
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+fun euclid(n1:Int,m1:Int): Int{
+    var m1 = m1
+    var n1 = n1
+    while (n1 != 0) {
+        val t = n1
+        n1 = m1 % n1
+        m1 = t
+    }
+    return m1
+}
+
 /**
  * Пример
  *
@@ -107,13 +118,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var m1 = m
-    var n1 = n
-    while (n1 != 0) {
-        val t = n1
-        n1 = m1 % n1
-        m1 = t
-    }
+    var m1 = euclid(m,n)
     return m / m1 * n
 }
 
@@ -145,18 +150,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var m1 = m
-    var n1 = n
-    while (n1 != 0) {
-        val t = n1;
-        n1 = m1 % n1;
-        m1 = t;
-    }
-    return m1 == 1
-
-
-}
+fun isCoPrime(m: Int, n: Int): Boolean = euclid(m,n)==1
 
 /**
  * Простая
@@ -166,9 +160,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    return if (sqr(floor(sqrt(m.toDouble()))).toInt() == m || sqr(floor(sqrt(m.toDouble()))).toInt() == m) true //выгядит отвратительно зато не сравниваю double
-    else sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt() > 0
-
+    return (sqr(floor(sqrt(m.toDouble()))).toInt() == m || sqr(floor(sqrt(m.toDouble()))).toInt() == m) || (sqrt(n.toDouble()).toInt() - sqrt(
+        m.toDouble()
+    ).toInt() > 0) //зачем он так странно отформатировал
 }
 
 /**
@@ -196,8 +190,6 @@ fun collatzSteps(x: Int): Int {
         count++
     }
     return count
-
-
 }
 
 /**
