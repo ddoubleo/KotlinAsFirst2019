@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import java.lang.StringBuilder
-
 /**
  * Пример
  *
@@ -113,7 +111,7 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
 fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
-    for ((key, value) in a)
+    for ((key, _) in a)
         if (!a[key].equals(b[key])) return false
     return true
 }
@@ -133,7 +131,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *     -> a changes to mutableMapOf() aka becomes empty
  */
 fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
-    for ((key, value) in b) if (b[key] == a[key]) a.remove(key)
+    for ((key, _) in b) if (b[key] == a[key]) a.remove(key)
 }
 
 /**
@@ -169,7 +167,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    var builder = StringBuilder()
+    val builder = StringBuilder()
     val result = mapA.toMutableMap()
     for ((key, value) in mapB) {
         builder.clear()
@@ -199,7 +197,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
     val list = emptyList<Double>().toMutableList()
     for ((first) in stockPrices)
         if (!result.containsKey(first)) result[first] = 0.0
-    for ((key, value) in result) {
+    for ((key, _) in result) {
         var number = 0.0
         var count = 0.0
         for ((first, second) in stockPrices) {
@@ -236,10 +234,7 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var result = ""
-    var intRes = 0.0
-    for ((key, value) in stuff) {
-        if (value.second > intRes) intRes = value.second
-    }
+    var intRes = Double.POSITIVE_INFINITY
     for ((key, value) in stuff)
         if (value.first == kind && value.second < intRes) {
             result = key
@@ -279,12 +274,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
-    var count = 0
     for (element in list)
-        if (result[element] == null) result[element] = 1
-        else {
-            result[element] = result.getOrDefault(key = element, defaultValue = 0) + 1
-        }
+        result[element] = result.getOrDefault(element, 0) + 1
     return result.filterValues { it != 1 }
 }
 
@@ -297,7 +288,17 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean = TODO()
+fun hasAnagrams(words: List<String>): Boolean {
+    val map = mutableSetOf<Map<Char, Int>>()
+    for (i in words) {
+        val t = mutableMapOf<Char, Int>()
+        for (j in i)
+            t[j] = t.getOrDefault(j, 0) + 1
+        if (map.contains(t)) return true
+        else map.add(t)
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -323,7 +324,14 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val result = mutableMapOf<String, Set<String>>()
+    for ((name, friendName) in friends) {
+
+    }
+
+    TODO()
+}
 
 /**
  * Сложная

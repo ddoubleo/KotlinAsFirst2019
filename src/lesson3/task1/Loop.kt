@@ -4,10 +4,9 @@ package lesson3.task1
 
 import lesson1.task1.sqr
 import kotlin.math.floor
-import kotlin.math.pow
 import kotlin.math.sqrt
 
-fun euclid(n1:Int,m1:Int): Int{
+fun highestCommonDivisor(n1: Int, m1: Int): Int {
     var m1 = m1
     var n1 = n1
     while (n1 != 0) {
@@ -117,10 +116,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var m1 = euclid(m,n)
-    return m / m1 * n
-}
+fun lcm(m: Int, n: Int): Int = m / highestCommonDivisor(m, n) * n
 
 /**
  * Простая
@@ -150,7 +146,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = euclid(m,n)==1
+fun isCoPrime(m: Int, n: Int): Boolean = highestCommonDivisor(m, n) == 1
 
 /**
  * Простая
@@ -272,13 +268,14 @@ fun hasDifferentDigits(n: Int): Boolean {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int {
+fun sequenceDigit(n: Int, flag: Boolean): Int {
     var n = n
     var count = 0
     var lastnum = 0
     var i = 1
     while (count < n) {
-        lastnum = sqr(i)
+        lastnum = if (flag) sqr(i)
+        else fib(i)
         count += digitNumber(lastnum)
         i++
     }
@@ -287,6 +284,9 @@ fun squareSequenceDigit(n: Int): Int {
         lastnum /= 10
     return lastnum % 10
 }
+
+
+fun squareSequenceDigit(n: Int): Int = sequenceDigit(n, true)
 
 /**
  * Сложная
@@ -297,19 +297,4 @@ fun squareSequenceDigit(n: Int): Int {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int {
-    var n = n
-    var count = 0
-    var lastnum = 0
-    var i = 1
-    while (count < n) {
-        lastnum = fib(i)
-        count += digitNumber(lastnum)
-        i++
-    }
-    n = count - n
-    for (j in 1..n)
-        lastnum /= 10
-    return lastnum % 10
-}
-
+fun fibSequenceDigit(n: Int): Int = sequenceDigit(n, false)
