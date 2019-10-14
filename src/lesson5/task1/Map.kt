@@ -142,7 +142,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val result = emptyList<String>().toMutableList()
+    val result = mutableListOf<String>()
     for (i in a.indices)
         if (a[i] == b[i])
             result.add(a[i])
@@ -233,14 +233,14 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var result = ""
+    var result = " "
     var intRes = Double.POSITIVE_INFINITY
     for ((key, value) in stuff)
         if (value.first == kind && value.second < intRes) {
             result = key
             intRes = value.second
         }
-    return if (result != "") result
+    return if (result != " ") result
     else null
 }
 
@@ -254,9 +254,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val word = word.toLowerCase()
+    var charsStr = chars.toString().toLowerCase()
     for (element in word)
-        if (!chars.contains(element)) return false
+        if (!charsStr.contains(element)) return false
     return true
 }
 
