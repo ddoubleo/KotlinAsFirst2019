@@ -313,8 +313,9 @@ fun decimal(digits: List1<Int>, base: Int): Int {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
+fun decimalFromString(str: String, base: Int): Int? {
+    var result: String? = null
+    val test = 'a' + 10
     var x = base.toDouble().pow((str.length - 1).toDouble()).toInt()
     for (i in str.length - 1 downTo 0) {
         val t = str[str.length - i - 1].toInt()
@@ -322,7 +323,7 @@ fun decimalFromString(str: String, base: Int): Int {
         else (t - 48) * x
         x /= base
     }
-    return result
+    return result?.toInt()
 }
 
 /**

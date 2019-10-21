@@ -130,7 +130,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
     for ((key, _) in b) if (b[key] == a[key]) a.remove(key)
 }
 
@@ -143,10 +143,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit {
  */
 fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
     val result = mutableListOf<String>()
-    for (i in a.indices)
-        if (a[i] == b[i])
-            result.add(a[i])
     return result.distinct()
+    TODO()
 }
 
 /**
@@ -179,6 +177,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
         }
 
     }
+    print(result)
     return result
 }
 
@@ -233,15 +232,14 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  *   ) -> "Мария"
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
-    var result = " "
+    var result: String? = null
     var intRes = Double.POSITIVE_INFINITY
     for ((key, value) in stuff)
         if (value.first == kind && value.second < intRes) {
             result = key
             intRes = value.second
         }
-    return if (result != " ") result
-    else null
+    return result
 }
 
 /**
@@ -254,9 +252,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    var charsStr = chars.toString().toLowerCase()
+    val charsSet = chars.toString().toLowerCase().toSet()
     for (element in word)
-        if (!charsStr.contains(element)) return false
+        if (!charsSet.contains(element.toLowerCase())) return false
     return true
 }
 
@@ -350,7 +348,11 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 4) -> Pair(0, 2)
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
-fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> = TODO()
+fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
+    val list = list.distinct()
+    TODO()
+
+}
 
 /**
  * Очень сложная
