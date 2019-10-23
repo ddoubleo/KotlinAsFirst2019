@@ -406,7 +406,7 @@ val listSpecial = listOf(
 
 fun threeDigitsConverter(n: Int, code: Boolean): MutableList<String> {
     var n2 = n
-    var res1 = mutableListOf<String>()
+    val res1 = mutableListOf<String>()
     if (n2 % 100 in 11..19) {
         res1.add(listSpecial[n2 % 10 - 1])
         n2 /= 100
@@ -424,7 +424,7 @@ fun threeDigitsConverter(n: Int, code: Boolean): MutableList<String> {
 
 fun russian(n: Int): String {
     var n = n
-    var res1 = mutableListOf<String>()
+    val res1 = mutableListOf<String>()
     res1.addAll(threeDigitsConverter(n, true))
     n /= 1000
     if (n != 0) {

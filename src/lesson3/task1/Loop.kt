@@ -156,9 +156,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = highestCommonDivisor(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    return (sqr(floor(sqrt(m.toDouble()))).toInt() == m || sqr(floor(sqrt(m.toDouble()))).toInt() == m) || (sqrt(n.toDouble()).toInt() - sqrt(
-        m.toDouble()
-    ).toInt() > 0) //зачем он так странно отформатировал
+    return (sqr(floor(sqrt(m.toDouble()))).toInt() == m || sqr(floor(sqrt(m.toDouble()))).toInt() == m)
+            || (sqrt(n.toDouble()).toInt() - sqrt(m.toDouble()).toInt() > 0) //зачем он так странно отформатировал
 }
 
 /**
