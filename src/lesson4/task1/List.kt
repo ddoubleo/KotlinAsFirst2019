@@ -271,15 +271,17 @@ fun convert(n: Int, base: Int): List1<Int> {
  */
 fun convertToString(n: Int, base: Int): String { //+87
     var n = n
-    var result = String()
+    var result = StringBuilder()
     if (n == 0) return "0"
     while (n != 0) {
         val t = n % base
-        result += if (t < 10) (t + 48).toChar()   //Так можно или все равно под условие не подходит?
-        else (t + 87).toChar()
+        result.append(
+            if (t < 10) t  //Так можно или все равно под условие не подходит?
+            else (t + 87).toChar()
+        )
         n /= base
     }
-    return result.reversed()
+    return result.toString().reversed()
 }
 
 /**
@@ -292,8 +294,8 @@ fun convertToString(n: Int, base: Int): String { //+87
 fun decimal(digits: List1<Int>, base: Int): Int {
     var result = 0
     var count = (base.toDouble().pow(digits.size - 1)).toInt()
-    for (i in digits.size - 1 downTo 0) {
-        result += digits[digits.size - i - 1] * count
+    for (i in digits) {
+        result += i * count
         count /= base
     }
     return result
@@ -314,16 +316,14 @@ fun decimal(digits: List1<Int>, base: Int): Int {
  * (например, str.toInt(base)), запрещается.
  */
 fun decimalFromString(str: String, base: Int): Int? {
-    var result: String? = null
-    val test = 'a' + 10
-    var x = base.toDouble().pow((str.length - 1).toDouble()).toInt()
-    for (i in str.length - 1 downTo 0) {
-        val t = str[str.length - i - 1].toInt()
-        result += if (t in 97..122) (t - 87) * x
-        else (t - 48) * x
+    var result = 0
+    var x = base.toDouble().pow(((str.length - 1).toDouble())).toInt()
+    for (digit in str) {
+        result += if (digit.isDigit()) (digit - 48).toInt() * x
+        else (digit - 87).toInt() * x
         x /= base
     }
-    return result?.toInt()
+    return result
 }
 
 /**

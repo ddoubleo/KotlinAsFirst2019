@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
-
+//Не надо проверять, еще ничего не готово
 package lesson6.task1
+
+import lesson2.task2.daysInMonth
+
+fun isNumeric(num: String): Boolean = num.toRegex().matches("d")
 
 /**
  * Пример
@@ -57,6 +61,20 @@ fun main() {
     }
 }
 
+val months = listOf(
+    "января",
+    "февраля",
+    "марта",
+    "апреля",
+    "мая",
+    "июня",
+    "июля",
+    "августа",
+    "сентября",
+    "октября",
+    "ноября",
+    "декабря"
+)
 
 /**
  * Средняя
@@ -69,7 +87,25 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun zeroCheck(input: Int): String {
+    return if (input < 10) ("0$input.")
+    else ("$input.")
+
+}
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    val result = StringBuilder()
+    if (parts.size != 3) return ""
+    if (!isNumeric(parts[0]) || !isNumeric(parts[2])) return ""
+    val day = parts[0].toInt()
+    val year = parts[2].toInt()
+    var monthStr = parts[1]
+    if (!months.contains(monthStr)) return ""
+    val monthNum = months.indexOf(monthStr) + 1
+    if (daysInMonth(monthNum, year) < day) return ""
+    return ((result.append(zeroCheck(day)).append(zeroCheck(monthNum)).append(year)).toString())
+}
 
 /**
  * Средняя
@@ -81,7 +117,19 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val result = StringBuilder()
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    if (!isNumeric(parts[0]) || !isNumeric(parts[1]) || !isNumeric(parts[2])) return ""
+    val day = parts[0].toInt()
+    val month = parts[1].toInt()
+    val year = parts[2].toInt()
+    if (daysInMonth(month, year) < day) return ""
+    if (month !in 1..12) return ""
+    return (result.append("$day ").append(months[month - 1]).append(" $year").toString())
+
+}
 
 /**
  * Средняя
