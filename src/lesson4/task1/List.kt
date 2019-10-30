@@ -334,7 +334,23 @@ fun decimalFromString(str: String, base: Int): Int? {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val result = "I".repeat(n)
+    return result.replace("IIIII", "V")
+        .replace("IIII", "IV")
+        .replace("VV", "X")
+        .replace("VIV", "IX")
+        .replace("XXXXX", "L")
+        .replace("XXXX", "XL")
+        .replace("LL", "C")
+        .replace("LXL", "XC")
+        .replace("CCCCC", "D")
+        .replace("CCCC", "CD")
+        .replace("DD", "M")
+        .replace("DCD", "CM")
+
+
+}
 
 /**
  * Очень сложная

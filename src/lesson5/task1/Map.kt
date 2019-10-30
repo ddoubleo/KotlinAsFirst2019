@@ -141,14 +141,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> {
-    val result = mutableSetOf<String>()
-    for (i in a.indices)
-        if (a[i] == b[i]) result.add(a[i])
-    for (i in a.size until b.size)
-        if (b[i] == a[i]) result.add(b[i])
-    return result.toList()
-}
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a.toSet().intersect(b.toSet())).toList()
+
 
 /**
  * Средняя
@@ -244,9 +238,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     val charsSet = chars.toSet()
-    charsSet.map { it.toLowerCase() }
-    for (element in word)
-        if (!charsSet.contains(element.toLowerCase())) return false
+    for (element in word.toLowerCase())
+        if (!charsSet.contains(element) && !charsSet.contains(element.toUpperCase())) return false
     return true
 }
 
@@ -314,15 +307,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "Mikhail" to setOf("Sveta", "Marat")
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val result = mutableMapOf<String, Set<String>>()
-    for ((name, friendName) in friends) {
-
-    }
-
-    TODO()
-}
-
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 /**
  * Сложная
  *
