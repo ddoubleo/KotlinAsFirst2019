@@ -162,17 +162,15 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a.toSet().in
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val builder = StringBuilder()
     val result = mapA.toMutableMap()
     for ((key, value) in mapB) {
-        builder.clear()
+        val builder = StringBuilder()
         if (value != mapA[key]) {
             if (mapA[key] != null) builder.append(mapA[key])
                 .append(", ")
             builder.append(value)
             result[key] = builder.toString()
         }
-
     }
     print(result)
     return result
@@ -272,13 +270,13 @@ fun extractRepeats(list: List<String>): Map<String, Int> {
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
 fun hasAnagrams(words: List<String>): Boolean {
-    val map = mutableSetOf<Map<Char, Int>>()
+    val mapsSet = mutableSetOf<Map<Char, Int>>()
     for (i in words) {
         val t = mutableMapOf<Char, Int>()
         for (j in i)
             t[j] = t.getOrDefault(j, 0) + 1
-        if (map.contains(t)) return true
-        else map.add(t)
+        if (mapsSet.contains(t)) return true
+        else mapsSet.add(t)
     }
     return false
 }
@@ -308,6 +306,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  *        )
  */
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+
 /**
  * Сложная
  *
@@ -326,9 +325,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val list = list.distinct()
-    TODO()
-
+    val set = list.toSet()
+    set.filter { it < number }
+    for (element in set)
+        if (set.contains(number - element) && list.indexOf(number - element) != list.indexOf(element))
+            return (list.indexOf(element) to list.indexOf(number - element))
+    return -1 to -1
 }
 
 /**

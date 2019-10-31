@@ -277,7 +277,7 @@ fun convertToString(n: Int, base: Int): String { //+87
         val t = n % base
         result.append(
             if (t < 10) t  //Так можно или все равно под условие не подходит?
-            else (t + 87).toChar()
+            else 'a' + t - 10
         )
         n /= base
     }
@@ -293,10 +293,9 @@ fun convertToString(n: Int, base: Int): String { //+87
  */
 fun decimal(digits: List1<Int>, base: Int): Int {
     var result = 0
-    var count = (base.toDouble().pow(digits.size - 1)).toInt()
     for (i in digits) {
-        result += i * count
-        count /= base
+        result *= base
+        result += i
     }
     return result
 
@@ -317,11 +316,10 @@ fun decimal(digits: List1<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int? {
     var result = 0
-    var x = base.toDouble().pow(((str.length - 1).toDouble())).toInt()
     for (digit in str) {
-        result += if (digit.isDigit()) (digit - 48).toInt() * x
-        else (digit - 87).toInt() * x
-        x /= base
+        result *= base
+        result += if (digit.isDigit()) (digit - '0')
+        else (digit - 'a' + 10)
     }
     return result
 }
