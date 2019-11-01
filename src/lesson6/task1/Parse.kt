@@ -1,10 +1,14 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
+
 //Не надо проверять, еще ничего не готово
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
 
-fun isNumeric(num: String): Boolean = num.toRegex().matches("d")
+fun isNumeric(num: String): Boolean {
+    num.forEach { if (it.toString().matches("""[\D]""".toRegex())) return false }
+    return true
+}
 
 /**
  * Пример
@@ -87,11 +91,6 @@ val months = listOf(
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun zeroCheck(input: Int): String {
-    return if (input < 10) ("0$input.")
-    else ("$input.")
-
-}
 
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
@@ -104,7 +103,9 @@ fun dateStrToDigit(str: String): String {
     if (!months.contains(monthStr)) return ""
     val monthNum = months.indexOf(monthStr) + 1
     if (daysInMonth(monthNum, year) < day) return ""
-    return ((result.append(zeroCheck(day)).append(zeroCheck(monthNum)).append(year)).toString())
+    return result.append(twoDigitStr(day)).append('.')
+        .append(twoDigitStr(monthNum)).append('.')
+        .append(year).toString()
 }
 
 /**
@@ -145,7 +146,10 @@ fun dateDigitToStr(digital: String): String {
  *
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(""".*[^0-9\-()+ ].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) return ""
+    return phone.replace("[\\-() ]".toRegex(), "")
+}
 
 /**
  * Средняя
@@ -157,7 +161,17 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var minJump = -1
+    if (!jumps.matches(""".*[\d].*""".toRegex()) || jumps.matches(""".*[^-%].*""".toRegex())) return minJump
+    val jumpsList =
+        jumps.filter { it.isDigit() || it == ' ' }.replace(""" +""".toRegex(), " ")
+            .split(" ").toMutableList()
+    for (jumpDistance in jumpsList.map { it.toInt() }) {
+        if (jumpDistance > minJump) minJump = jumpDistance
+    }
+    return minJump
+}
 
 /**
  * Сложная
@@ -218,7 +232,12 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int { //Я потом переделаю
+    for (i in 1..3000)
+        if (lesson4.task1.roman(i) == roman) return i
+    return -1
+
+}
 
 /**
  * Очень сложная
