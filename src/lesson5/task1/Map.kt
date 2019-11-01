@@ -141,7 +141,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) {
  * В выходном списке не должно быть повторяюихся элементов,
  * т. е. whoAreInBoth(listOf("Марат", "Семён, "Марат"), listOf("Марат", "Марат")) == listOf("Марат")
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = (a.toSet().intersect(b.toSet())).toList()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.toSet().intersect(b.toSet()).toList()
 
 
 /**
@@ -256,8 +256,9 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     for (element in list)
-        result[element] = result.getOrDefault(element, 0) + 1
-    return result.filterValues { it != 1 }
+        if (list.count { it == element } > 1)
+            result[element] = result.getOrDefault(element, 0) + 1
+    return result
 }
 
 /**
@@ -325,11 +326,12 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    val set = list.toSet()
-    set.filter { it < number }
-    for (element in set)
-        if (set.contains(number - element) && list.indexOf(number - element) != list.indexOf(element))
+    val checkList = list.toMutableList()// Добавил еще один список чтобы отсечь повторяющиеся элементы
+    for (element in list) {
+        checkList.remove(element)
+        if (checkList.contains(number - element))
             return (list.indexOf(element) to list.indexOf(number - element))
+    }
     return -1 to -1
 }
 

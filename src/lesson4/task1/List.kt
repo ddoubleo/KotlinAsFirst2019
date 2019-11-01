@@ -269,14 +269,14 @@ fun convert(n: Int, base: Int): List1<Int> {
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String { //+87
+fun convertToString(n: Int, base: Int): String {
     var n = n
-    var result = StringBuilder()
+    val result = StringBuilder()
     if (n == 0) return "0"
     while (n != 0) {
         val t = n % base
         result.append(
-            if (t < 10) t  //Так можно или все равно под условие не подходит?
+            if (t < 10) t
             else 'a' + t - 10
         )
         n /= base
