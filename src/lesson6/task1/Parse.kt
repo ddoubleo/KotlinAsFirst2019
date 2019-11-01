@@ -93,10 +93,9 @@ val months = listOf(
  */
 
 fun dateStrToDigit(str: String): String {
+    if (!str.matches("""\d{1,2} [а-я]+ \d{4}""".toRegex())) return ""
     val parts = str.split(" ")
     val result = StringBuilder()
-    if (parts.size != 3) return ""
-    if (!isNumeric(parts[0]) || !isNumeric(parts[2])) return ""
     val day = parts[0].toInt()
     val year = parts[2].toInt()
     var monthStr = parts[1]
@@ -120,14 +119,12 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val result = StringBuilder()
+    if (!digital.matches("""\d{2}\.\d{2}\.\d{4}""".toRegex())) return ""
     val parts = digital.split(".")
-    if (parts.size != 3) return ""
-    if (!isNumeric(parts[0]) || !isNumeric(parts[1]) || !isNumeric(parts[2])) return ""
     val day = parts[0].toInt()
     val month = parts[1].toInt()
     val year = parts[2].toInt()
-    if (daysInMonth(month, year) < day) return ""
-    if (month !in 1..12) return ""
+    if (daysInMonth(month, year) < day || month !in 1..12) return ""
     return (result.append("$day ").append(months[month - 1]).append(" $year").toString())
 
 }
@@ -163,13 +160,11 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     var minJump = -1
-    if (!jumps.matches(""".*[\d].*""".toRegex()) || jumps.matches(""".*[^-%].*""".toRegex())) return minJump
+    if (jumps.matches(""".*[^-%\d ].*""".toRegex()) || !jumps.matches(""".*[\d].*""".toRegex())) return minJump
     val jumpsList =
         jumps.filter { it.isDigit() || it == ' ' }.replace(""" +""".toRegex(), " ")
             .split(" ").toMutableList()
-    for (jumpDistance in jumpsList.map { it.toInt() }) {
-        if (jumpDistance > minJump) minJump = jumpDistance
-    }
+    minJump = jumpsList.map { it.toInt() }.max()!!
     return minJump
 }
 
