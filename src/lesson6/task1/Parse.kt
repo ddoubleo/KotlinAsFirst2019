@@ -93,7 +93,7 @@ val months = listOf(
  */
 
 fun dateStrToDigit(str: String): String {
-    if (!str.matches("""\d{1,2} [а-я]+ \d{4}""".toRegex())) return ""
+    if (!str.matches("""\d{1,2} [а-я]+ \d+""".toRegex())) return ""
     val parts = str.split(" ")
     val result = StringBuilder()
     val day = parts[0].toInt()
@@ -119,7 +119,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val result = StringBuilder()
-    if (!digital.matches("""\d{2}\.\d{2}\.\d{4}""".toRegex())) return ""
+    if (!digital.matches("""\d{2}\.\d{2}\.\d+""".toRegex())) return ""
     val parts = digital.split(".")
     val day = parts[0].toInt()
     val month = parts[1].toInt()
@@ -144,7 +144,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(""".*[^0-9\-()+ ].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) return ""
+    if (phone.matches(""".*[^0-9\-()+\s].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) return ""
     return phone.replace("[\\-() ]".toRegex(), "")
 }
 
@@ -224,7 +224,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Я потом переделаю
-    for (i in 1..3000)
+    for (i in 1..5000)
         if (lesson4.task1.roman(i) == roman) return i
     return -1
 
