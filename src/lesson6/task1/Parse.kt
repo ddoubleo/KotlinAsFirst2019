@@ -1,6 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "ConvertCallChainIntoSequence")
 
-//Не надо проверять, еще ничего не готово
 package lesson6.task1
 
 import lesson2.task2.daysInMonth
@@ -98,7 +97,7 @@ fun dateStrToDigit(str: String): String {
     val result = StringBuilder()
     val day = parts[0].toInt()
     val year = parts[2].toInt()
-    var monthStr = parts[1]
+    val monthStr = parts[1]
     if (!months.contains(monthStr)) return ""
     val monthNum = months.indexOf(monthStr) + 1
     if (daysInMonth(monthNum, year) < day) return ""
@@ -144,8 +143,8 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(""".*[^0-9\-()+\s].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) return ""
-    return phone.replace("[\\-() ]".toRegex(), "")
+    return if (phone.matches(""".*[^0-9\-()+ \n].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
+    else phone.replace("[\\-() \n]".toRegex(), "")
 }
 
 /**
@@ -175,7 +174,15 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var maxJump = -1
+    if (jumps.matches(""".*[^-\d+% ].*""".toRegex())) return -1
+    val splitted = jumps.split(' ')
+    for (i in 0 until splitted.size / 2)
+        if (splitted[2 * i + 1].contains('+') && splitted[2 * i].toInt() > maxJump)
+            maxJump = splitted[2 * i].toInt()
+    return maxJump
+}
 
 /**
  * Сложная
@@ -186,7 +193,22 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    require(
+        !(expression.matches(""".*[^-\d+ ].*""".toRegex()) ||
+                expression.matches(""" .*\d+ \d+.* """.toRegex()) ||
+                expression.matches(""".*[-+] [-+].*""".toRegex()) ||
+                expression.matches(""".*[^ \d][^ \d].*""".toRegex()) ||
+                !isNumeric(expression[0].toString()))
+    ) { expression }
+    val split = expression.split(' ')
+    var result = split[0].toInt()
+    for (i in 0 until split.size / 2) {
+        if (split[i * 2 + 1] == "+") result += split[i * 2 + 2].toInt()
+        else result -= split[i * 2 + 2].toInt()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -197,7 +219,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val split = str.split(' ')
+    for (i in 1 until split.size) {
+        if (split[i].toLowerCase() == split[i - 1].toLowerCase()) {
+            val builder = StringBuilder()
+            return str.indexOf(builder.append("${split[i - 1]} ${split[i]}").toString(), i, true)
+        }
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -210,7 +241,18 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    // Тут должна быть проверка формата строки
+    val split = description.replace(";", "").split(' ')
+    var maxPrice = -1.0
+    var maxName = ""
+    for (i in 0 until split.size / 2)
+        if (split[i * 2 + 1].toDouble() > maxPrice) {
+            maxName = split[i * 2]
+            maxPrice = split[i * 2 + 1].toDouble()
+        }
+    return maxName
+}
 
 /**
  * Сложная
@@ -224,7 +266,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Я потом переделаю
-    for (i in 1..5000)
+    for (i in 1..3500)
         if (lesson4.task1.roman(i) == roman) return i
     return -1
 

@@ -5,7 +5,6 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.isPrime
-import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.collections.List as List1
 
@@ -333,21 +332,16 @@ fun decimalFromString(str: String, base: Int): Int? {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val result = "I".repeat(n)
-    return result.replace("IIIII", "V")
-        .replace("IIII", "IV")
-        .replace("VV", "X")
-        .replace("VIV", "IX")
-        .replace("XXXXX", "L")
-        .replace("XXXX", "XL")
-        .replace("LL", "C")
-        .replace("LXL", "XC")
-        .replace("CCCCC", "D")
-        .replace("CCCC", "CD")
-        .replace("DD", "M")
-        .replace("DCD", "CM")
-
-
+    var n = n
+    val res = StringBuilder()
+    val values = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val romanLetters = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    for (i in values.indices)
+        while (n >= values[i]) {
+            n -= values[i]
+            res.append(romanLetters[i])
+        }
+    return res.toString()
 }
 
 /**
@@ -454,6 +448,6 @@ fun russian(n: Int): String {
         n /= 1000
     }
     val result = res1.filterNot { it == "" }
-    return (result.reversed().joinToString(separator = " "))
+    return result.reversed().joinToString(separator = " ")
 
 }
