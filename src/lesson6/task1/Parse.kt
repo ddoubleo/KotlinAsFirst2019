@@ -226,7 +226,7 @@ fun firstDuplicateIndex(str: String): Int {
     for (i in 1 until split.size) {
         if (split[i].toLowerCase() == split[i - 1].toLowerCase()) {
             val builder = StringBuilder()
-            return str.indexOf(builder.append("${split[i - 1]} ${split[i]}").toString(), i, true)
+            return str.indexOf(builder.append("${split[i - 1]} ${split[i]}").toString())
         }
     }
     return -1
@@ -244,7 +244,7 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    // Тут должна быть проверка формата строки
+    // Тут должна быть проверка формата строки(а на котоеде она и не нужна...)
     val split = description.replace(";", "").split(' ')
     var maxPrice = -1.0
     var maxName = ""
@@ -267,10 +267,19 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int { //Я потом переделаю
-    for (i in 1..3500)
-        if (lesson4.task1.roman(i) == roman) return i
-    return -1
+fun fromRoman(roman: String): Int { //Переделал
+    var roman = roman
+    var res = 0
+    if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1
+    val values = listOf(900, 1000, 400, 500, 90, 100, 40, 50, 9, 10, 4, 5, 1)
+    val romanLetters = listOf("CM", "M", "CD", "D", "XC", "C", "XL", "L", "IX", "X", "IV", "V", "I")
+    for (i in values.indices) {
+        while (roman.contains(romanLetters[i])) {
+            res += values[i]
+            roman = roman.replaceFirst(romanLetters[i], "")
+        }
+    }
+    return res
 
 }
 
