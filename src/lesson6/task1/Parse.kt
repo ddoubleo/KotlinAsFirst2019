@@ -194,6 +194,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    require(expression != "") { expression }
     require(
         !(expression.matches(""".*[^-\d+ ].*""".toRegex()) ||
                 expression.matches(""" .*\d+ \d+.* """.toRegex()) ||
@@ -208,6 +209,7 @@ fun plusMinus(expression: String): Int {
         else result -= split[i * 2 + 2].toInt()
     }
     return result
+
 }
 
 /**
