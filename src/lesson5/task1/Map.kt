@@ -255,8 +255,8 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
-    for (element in list.toSet())
-        result[element] = result.getOrDefault(element, 0) + list.count { it == element }
+    for (element in list)
+        result[element] = result.getOrDefault(element, 0) + 1
     return result.filterValues { it > 1 }
 }
 
