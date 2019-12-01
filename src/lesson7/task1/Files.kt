@@ -4,6 +4,13 @@ package lesson7.task1
 
 import java.io.File
 
+fun maxStringLength(input: String): Int {
+    var maxLength = 0
+    for (line in File(input).readLines())
+        if (line.trim().length > maxLength) maxLength = line.trim().length
+    return maxLength
+}
+
 /**
  * Пример
  *
@@ -137,9 +144,7 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    var maxLength = 0
-    for (line in File(inputName).readLines())
-        if (line.length > maxLength) maxLength = line.length
+    val maxLength = maxStringLength(inputName)
     val writer = File(outputName).bufferedWriter()
     for (line in File(inputName).readLines()) {
         val trimmedLine = line.trim()
@@ -179,7 +184,18 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    var maxLength = maxStringLength(inputName)
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        val t = line.trim().replace(Regex("\\s+"), " ")
+        if (t.length > maxLength) maxLength = t.length
+    }
+    for (line in File(inputName).readLines()) {
+        val currentLength = line.trim().replace(Regex("\\s+"), " ").length
+
+
+    }
+    writer.close()
 }
 
 /**
@@ -212,10 +228,9 @@ fun top20Words(inputName: String): Map<String, Int> {
         }
     }
     result.remove("")
-    var res = result.toList().sortedBy { (_, value) -> value }.asReversed().toMutableList()
-    while (res.size > 20)
-        res.removeAt(20)
-    return res.toMap()
+    var res = result.toList().sortedBy { (_, value) -> value }.asReversed()
+    return if (res.size > 20) res.take(20).toMap()
+    else res.toMap()
 
 }
 
@@ -301,8 +316,20 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val result = mutableMapOf<Int, String>()
+    for (line in File(inputName).readLines()) {
+        val builder = StringBuilder()
+        if (line.toLowerCase().toSet().size == line.length) {
+            if (result[line.length] == null)
+                result[line.length] = line
+            else result[line.length] = builder.append(result[line.length]).append(", ").append(line).toString()
+        }
+    }
+    File(outputName).bufferedWriter().use {
+        it.write(result[result.keys.max()])
+    }
 }
+
 
 /**
  * Сложная

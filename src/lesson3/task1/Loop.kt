@@ -270,18 +270,18 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun sequenceDigit(n: Int, flag: Boolean): Int {
     var n = n
     var count = 0
-    var lastnum = 0
+    var lastNum = 0
     var i = 1
     while (count < n) {
-        lastnum = if (flag) sqr(i)
+        lastNum = if (flag) sqr(i)
         else fib(i)
-        count += digitNumber(lastnum)
+        count += digitNumber(lastNum)
         i++
     }
     n = count - n
     for (j in 1..n)
-        lastnum /= 10
-    return lastnum % 10
+        lastNum /= 10
+    return lastNum % 10
 }
 
 

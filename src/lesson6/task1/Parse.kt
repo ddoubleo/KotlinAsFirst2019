@@ -268,6 +268,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Переделал
+    if (roman.isNullOrEmpty()) return -1
     var roman = roman
     var res = 0
     if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1
