@@ -79,7 +79,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         result += i to 0
     }
     for (line in File(inputName).readLines()) {
-        for (word in substrings) {
+        for (word in substrings.toSet()) {
             val line = line.toLowerCase()
             if (line.contains(word.toLowerCase())) {
                 result[word] = result[word]!! + countSubstringEntries(line, word)
