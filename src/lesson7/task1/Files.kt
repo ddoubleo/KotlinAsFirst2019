@@ -78,10 +78,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     for (i in substrings) {
         result += i to 0
     }
+    val substringsSet = substrings.toSet()
+    substringsSet.map { it.toLowerCase() }
     for (line in File(inputName).readLines()) {
-        for (word in substrings.toSet()) {
+        for (word in substringsSet) {
             val line = line.toLowerCase()
-            if (line.contains(word.toLowerCase())) {
+            if (line.contains(word)) {
                 result[word] = result[word]!! + countSubstringEntries(line, word)
             }
         }
@@ -228,7 +230,7 @@ fun top20Words(inputName: String): Map<String, Int> {
         }
     }
     result.remove("")
-    var res = result.toList().sortedBy { (_, value) -> value }.asReversed()
+    val res = result.toList().sortedBy { (_, value) -> value }.asReversed()
     return if (res.size > 20) res.take(20).toMap()
     else res.toMap()
 
@@ -322,7 +324,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         if (line.toLowerCase().toSet().size == line.length) {
             if (result[line.length] == null)
                 result[line.length] = line
-            else result[line.length] = builder.append(result[line.length]).append(", ").append(line).toString()
+            else result[line.length] = "${result[line.length]}, $line"
         }
     }
     File(outputName).bufferedWriter().use {

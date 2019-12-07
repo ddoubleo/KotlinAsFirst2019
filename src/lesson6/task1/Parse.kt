@@ -101,9 +101,7 @@ fun dateStrToDigit(str: String): String {
     if (!months.contains(monthStr)) return ""
     val monthNum = months.indexOf(monthStr) + 1
     if (daysInMonth(monthNum, year) < day) return ""
-    return result.append(twoDigitStr(day)).append('.')
-        .append(twoDigitStr(monthNum)).append('.')
-        .append(year).toString()
+    return "${twoDigitStr(day)}.${twoDigitStr(monthNum)}.${year}"
 }
 
 /**
@@ -124,7 +122,7 @@ fun dateDigitToStr(digital: String): String {
     val month = parts[1].toInt()
     val year = parts[2].toInt()
     if (daysInMonth(month, year) < day || month !in 1..12) return ""
-    return (result.append("$day ").append(months[month - 1]).append(" $year").toString())
+    return "$day ${months[month - 1]} $year"
 
 }
 
@@ -222,11 +220,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val split = str.split(' ')
+    val split = str.toLowerCase().split(' ')
     for (i in 1 until split.size) {
-        if (split[i].toLowerCase() == split[i - 1].toLowerCase()) {
+        if (split[i] == split[i - 1]) {
             val builder = StringBuilder()
-            return str.indexOf(builder.append("${split[i - 1]} ${split[i]}").toString())
+            return str.indexOf("${split[i - 1]} ${split[i]}")
         }
     }
     return -1
@@ -268,7 +266,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Переделал
-    if (roman.isNullOrEmpty()) return -1
+    if (roman.isEmpty()) return -1
     var roman = roman
     var res = 0
     if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1
@@ -280,7 +278,8 @@ fun fromRoman(roman: String): Int { //Переделал
             roman = roman.replaceFirst(romanLetters[i], "")
         }
     }
-    return res
+    return if (res != 0) res
+    else -1
 
 }
 
