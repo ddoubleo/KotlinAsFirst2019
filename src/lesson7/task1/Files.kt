@@ -78,8 +78,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     for (i in substrings) {
         result += i to 0
     }
-    val substringsSet = substrings.toSet()
-    substringsSet.map { it.toLowerCase() }
+    val substringsSet = substrings.toMutableSet().map { it.toLowerCase() }
     for (line in File(inputName).readLines()) {
         for (word in substringsSet) {
             val line = line.toLowerCase()
@@ -279,7 +278,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             if (dictionary.containsKey(i.toLowerCase()) || dictionary.containsKey(i.toUpperCase())) {
                 if (i.isUpperCase()) {
                     val t = dictionary[i.toLowerCase()]
-                    if (t != null) {
+                    if (!t.isNullOrEmpty()) {
                         writer.write(t[0].toUpperCase().toString())
                         writer.write(t.substring(1).toLowerCase())
                     }
@@ -319,15 +318,19 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val result = mutableMapOf<Int, String>()
-    for (line in File(inputName).readLines()) {
-        val builder = StringBuilder()
-        if (line.toLowerCase().toSet().size == line.length) {
-            if (result[line.length] == null)
-                result[line.length] = line
-            else result[line.length] = "${result[line.length]}, $line"
-        }
-    }
     File(outputName).bufferedWriter().use {
+        if (inputName.isNullOrEmpty()) {
+            it.write("")
+            it.close()
+        }
+        for (line in File(inputName).readLines()) {
+            if (line.toLowerCase().toSet().size == line.length) {
+                if (result[line.length] == null)
+                    result[line.length] = line
+                else result[line.length] = "${result[line.length]}, $line"
+            }
+        }
+
         it.write(result[result.keys.max()])
     }
 }

@@ -142,7 +142,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     return if (phone.matches(""".*[^0-9\-()+ \n].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
-    else phone.replace("[\\-() \n]".toRegex(), "")
+    else phone.replace("[\\-() \\s]".toRegex(), "")
 }
 
 /**
@@ -221,10 +221,11 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val split = str.toLowerCase().split(' ')
+    var index = 0
     for (i in 1 until split.size) {
+        index += split[i - 1].length + 1
         if (split[i] == split[i - 1]) {
-            val builder = StringBuilder()
-            return str.indexOf("${split[i - 1]} ${split[i]}")
+            return index - split[i - 1].length - 1
         }
     }
     return -1
@@ -266,7 +267,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Переделал
-    if (roman.isEmpty()) return -1
+    if (roman.isEmpty() || roman.matches(Regex("(\\W)"))) return -1
     var roman = roman
     var res = 0
     if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1
