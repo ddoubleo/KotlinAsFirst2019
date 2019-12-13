@@ -141,8 +141,9 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    return if (phone.matches("""([^0-9\-()+ \n])""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
-    else phone.replace("[\\-() \\s]".toRegex(), "")
+    if (!phone.matches("""([0-9\-()+ ]+)""".toRegex())) println(1) else println(0)
+    return if (phone.matches(Regex("(\\n)")) || !phone.matches("""([0-9\-()+ ])+""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
+    else phone.replace("""[\-() \s]""".toRegex(), "")
 }
 
 /**
@@ -267,10 +268,9 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Переделал
-    if (roman.isEmpty() || roman.matches(Regex("""([^MCDXLVI])"""))) return -1
+    if (roman.isEmpty() || roman.matches(Regex("(\\n)")) || !roman.matches(Regex("""([MCDXLVI]+)"""))) return -1
     var roman = roman
     var res = 0
-    if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1
     val values = listOf(900, 1000, 400, 500, 90, 100, 40, 50, 9, 10, 4, 5, 1)
     val romanLetters = listOf("CM", "M", "CD", "D", "XC", "C", "XL", "L", "IX", "X", "IV", "V", "I")
     for (i in values.indices) {
