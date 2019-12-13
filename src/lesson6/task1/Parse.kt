@@ -141,7 +141,7 @@ fun dateDigitToStr(digital: String): String {
  * PS: Дополнительные примеры работы функции можно посмотреть в соответствующих тестах.
  */
 fun flattenPhoneNumber(phone: String): String {
-    return if (phone.matches(""".*[^0-9\-()+ \n].*""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
+    return if (phone.matches("""([^0-9\-()+ \n])""".toRegex()) || phone.matches(""".*\(\).*""".toRegex())) ""
     else phone.replace("[\\-() \\s]".toRegex(), "")
 }
 
@@ -267,7 +267,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int { //Переделал
-    if (roman.isEmpty() || roman.matches(Regex("(\\W)"))) return -1
+    if (roman.isEmpty() || roman.matches(Regex("""([^MCDXLVI])"""))) return -1
     var roman = roman
     var res = 0
     if (roman.matches(""".*[^IVXLCDM].*""".toRegex())) return -1

@@ -322,16 +322,17 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         if (inputName.isNullOrEmpty()) {
             it.write("")
             it.close()
-        }
-        for (line in File(inputName).readLines()) {
-            if (line.toLowerCase().toSet().size == line.length) {
-                if (result[line.length] == null)
-                    result[line.length] = line
-                else result[line.length] = "${result[line.length]}, $line"
+        } else {
+            for (line in File(inputName).readLines()) {
+                if (line.toLowerCase().toSet().size == line.length) {
+                    if (result[line.length] == null)
+                        result[line.length] = line
+                    else result[line.length] = "${result[line.length]}, $line"
+                }
             }
-        }
 
-        it.write(result[result.keys.max()])
+            it.write(result[result.keys.max()])
+        }
     }
 }
 
