@@ -185,16 +185,33 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    var maxLength = maxStringLength(inputName)
     val writer = File(outputName).bufferedWriter()
+    val maxLineLength = maxStringLength(inputName)
     for (line in File(inputName).readLines()) {
-        val t = line.trim().replace(Regex("\\s+"), " ")
-        if (t.length > maxLength) maxLength = t.length
-    }
-    for (line in File(inputName).readLines()) {
-        val currentLength = line.trim().replace(Regex("\\s+"), " ").length
-
-
+        val words = line.trim().split(Regex("\\s+"))
+        if (words.size <= 1) {
+            writer.write(words.first())
+            writer.newLine()
+        } else {
+            val lineWithOneSpace = line.trim().replace("\\s+".toRegex(), " ")
+            val min = (maxLineLength - lineWithOneSpace.length) / (words.size - 1)
+            var left = (maxLineLength - lineWithOneSpace.length) % (words.size - 1)
+            if (lineWithOneSpace.length == maxLineLength) {
+                writer.write(line.trim())
+                writer.newLine()
+            } else {
+                val builder = StringBuilder()
+                for (word in words.subList(0, words.size - 1)) {
+                    builder.append(word)
+                    builder.append(" ".repeat(min + 1))
+                    if (left > 0) builder.append(" ")
+                    left--
+                }
+                builder.append(words.last())
+                writer.write(builder.toString())
+                writer.newLine()
+            }
+        }
     }
     writer.close()
 }
