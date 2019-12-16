@@ -4,7 +4,8 @@ package lesson7.task1
 
 import java.io.File
 
-fun maxStringLength(input: String): Int {
+
+fun maxStringLength(input: String, file: List<String>): Int {
     var maxLength = 0
     for (line in File(input).readLines())
         if (line.trim().length > maxLength) maxLength = line.trim().length
@@ -25,7 +26,8 @@ fun maxStringLength(input: String): Int {
 fun alignFile(inputName: String, lineLength: Int, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     var currentLineLength = 0
-    for (line in File(inputName).readLines()) {
+    val reader = File(inputName).readLines()
+    for (line in reader) {
         if (line.isEmpty()) {
             outputStream.newLine()
             if (currentLineLength > 0) {
@@ -145,9 +147,10 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    val maxLength = maxStringLength(inputName)
+    val reader = File(inputName).readLines()
+    val maxLength = maxStringLength(inputName, reader)
     val writer = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
+    for (line in reader) {
         val trimmedLine = line.trim()
         writer.write(" ".repeat((maxLength - trimmedLine.length) / 2))
         writer.write(trimmedLine)
@@ -185,9 +188,10 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
+    val reader = File(inputName).readLines()
     val writer = File(outputName).bufferedWriter()
-    val maxLineLength = maxStringLength(inputName)
-    for (line in File(inputName).readLines()) {
+    val maxLineLength = maxStringLength(inputName, reader)
+    for (line in reader) {
         val words = line.trim().split(Regex("\\s+"))
         if (words.size <= 1) {
             writer.write(words.first())
@@ -247,8 +251,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     }
     result.remove("")
     val res = result.toList().sortedBy { (_, value) -> value }.asReversed()
-    return if (res.size > 20) res.take(20).toMap()
-    else res.toMap()
+    return res.take(20).toMap()
 
 }
 
@@ -338,6 +341,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     if (inputName.isNotEmpty()) {
         for (line in File(inputName).readLines()) {
+            if (line.isEmpty()) continue
             if (line.toLowerCase().toSet().size == line.length) {
                 if (result[line.length] == null)
                     result[line.length] = line
