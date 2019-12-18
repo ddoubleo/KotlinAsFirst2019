@@ -229,12 +229,13 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val result = mutableMapOf<String, Int>()
     for (line in File(inputName).readLines()) {
+        val line = line.toLowerCase()
         val split = line.trim().split("""([^а-яА-ЯёЁa-zA-Z])""".toRegex()).toMutableList()
         for (i in 0 until split.size) {
             split[i] = split[i].replace(Regex("""([^а-яА-ЯёЁa-zA-Z])"""), "")
         }
         for (i in split) {
-            result[i.toLowerCase()] = result.getOrDefault(i.toLowerCase(), 0) + 1
+            result[i] = result.getOrDefault(i, 0) + 1
         }
     }
     result.remove("")
@@ -282,6 +283,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
     val writer = File(outputName).bufferedWriter()
     val dictionary = dictionary.mapKeys { it.key.toLowerCase() }.toMutableMap()
     for (line in File(inputName).readLines()) {
+        if (line.isEmpty()) continue
         for (i in line) {
             if (dictionary.containsKey(i.toLowerCase()) || dictionary.containsKey(i.toUpperCase())) {
                 if (i.isUpperCase()) {
